@@ -25,7 +25,9 @@ public static class SeedData
                     NameProduct = "Laptop lenion 5",
                     Price =  25000,
                     Category = "Laptop",
-                    Description = "San pham gaming"
+                    Description = "San pham gaming",
+                    Rating = 4,
+
                 }
                 
             );

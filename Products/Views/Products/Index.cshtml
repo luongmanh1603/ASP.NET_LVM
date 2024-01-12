@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Products.Models.Product>
+﻿@model Products.Models.ProductCategoryViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -11,7 +11,10 @@
 </p>
 <form asp-controller="Products" asp-action="Index" method="get">
     <p>
-        Title: <input type="text" name="SearchString" />
+        <select asp-for="ProductCategory" asp-items="Model.Category" >
+
+        </select>
+        Title: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>
@@ -19,22 +22,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NameProduct)
+                @Html.DisplayNameFor(model => model.Products![0].NameProduct)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.Products![0].Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                @Html.DisplayNameFor(model => model.Products![0].Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Products![0].Description)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Products![0].Rating)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Products!) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.NameProduct)
@@ -48,6 +54,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

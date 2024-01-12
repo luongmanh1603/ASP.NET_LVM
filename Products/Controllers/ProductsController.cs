@@ -33,7 +33,7 @@ namespace Products.Controllers
 
             var products = from m in _context.Product
                            select m;
-             if(!String.IsNullOrEmpty(searchString))
+             if(!string.IsNullOrEmpty(searchString))
             {
                 products = products.Where(s => s.NameProduct!.Contains(searchString));
             }
@@ -41,7 +41,12 @@ namespace Products.Controllers
             {
                 products = products.Where(x => x.Category == productCategory);
             }
-             return View(await products.ToListAsync());
+            var productCategoryVM = new ProductCategoryViewModel
+            {
+                Category = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+                Products = await products.ToListAsync(),
+            };
+             return View(productCategoryVM);
         }
 
         // GET: Products/Details/5
@@ -73,7 +78,7 @@ namespace Products.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NameProduct,Price,Category,Description")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,NameProduct,Price,Category,Description,Rating")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +110,7 @@ namespace Products.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NameProduct,Price,Category,Description")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NameProduct,Price,Category,Description,Rating")] Product product)
         {
             if (id != product.Id)
             {
